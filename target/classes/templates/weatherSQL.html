@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Data</title>
+</head>
+<body>
+<h1>Weather Data</h1>
+
+<h2>Countries</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Code</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="country : ${countries}">
+        <tr>
+            <td th:text="${country.id}"></td>
+            <td th:text="${country.code}"></td>
+            <td th:text="${country.name}"></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+<h2>Cities</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Longitude</th>
+        <th>Latitude</th>
+        <th>Country</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="city : ${cities}">
+        <tr>
+            <td th:text="${city.id}"></td>
+            <td th:text="${city.name}"></td>
+            <td th:text="${city.lon}"></td>
+            <td th:text="${city.lat}"></td>
+            <td th:text="${city.country.name}"></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+<h2>Weather Measurements</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>City</th>
+        <th>Temperature</th>
+        <th>Feels Like</th>
+        <th>Weather Main</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="measurement : ${weatherMeasurements}">
+        <tr>
+            <td th:text="${measurement.id}"></td>
+            <td th:text="${measurement.city.name}"></td>
+            <td th:text="${measurement.temp}"></td>
+            <td th:text="${measurement.feelsLike}"></td>
+            <td th:text="${measurement.weatherMain}"></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+</body>
+</html>

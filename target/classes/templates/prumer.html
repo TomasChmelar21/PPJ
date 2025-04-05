@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Průměrné teploty</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .average-temperature {
+      font-size: 18px;
+      margin: 10px 0;
+      color: #3498db;
+    }
+
+    .average-temperature span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Průměrné teploty</h1>
+
+  <div class="average-temperature">
+    <h2>Průměrná teplota za poslední den:</h2>
+    <p><span th:text="${avgTempDay}"></span> °C</p>
+  </div>
+
+  <div class="average-temperature">
+    <h2>Průměrná teplota za poslední týden:</h2>
+    <p><span th:text="${avgTempWeek}"></span> °C</p>
+  </div>
+
+  <div class="average-temperature">
+    <h2>Průměrná teplota za posledních 14 dní:</h2>
+    <p><span th:text="${avgTemp14Days}"></span> °C</p>
+  </div>
+</div>
+</body>
+</html>

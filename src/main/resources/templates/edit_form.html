@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upravit měření</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Upravit měření</h1>
+
+    <form th:action="@{/edit/{id}(id=${measurement.id})}" method="post">
+        <label for="temp">Teplota:</label>
+        <input type="text" id="temp" name="temp" th:value="${measurement.temp}" required />
+
+        <label for="humidity">Vlhkost:</label>
+        <input type="text" id="humidity" name="humidity" th:value="${measurement.humidity}" required />
+
+        <label for="pressure">Tlak:</label>
+        <input type="text" id="pressure" name="pressure" th:value="${measurement.pressure}" required />
+
+        <input type="hidden" name="city_id" th:value="${measurement.city.id}" />
+
+        <button type="submit">Uložit</button>
+    </form>
+</div>
+</body>
+</html>

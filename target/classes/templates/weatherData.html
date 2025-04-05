@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Všechna data o počasí</title>
+</head>
+<body>
+<h1>Všechna data o počasí</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Hostname</th>
+    <th>Start Time (UTC)</th>
+    <th>Start Time (Local)</th>
+    <th>Konfigurace</th>
+    <th>PID</th>
+    <th>Verze</th>
+    <th>Prostředí</th>
+    <th>Port</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="data : ${weatherDataList}">
+    <!-- Vykreslení Hostname -->
+    <td th:text="${data.hostname}"></td>
+
+    <!-- Vykreslení Start Time (UTC) -->
+    <td th:text="${data.startTime}"></td>
+
+    <!-- Vykreslení Start Time (Local) -->
+    <td th:text="${data.startTimeLocal}"></td>
+
+    <!-- Vykreslení Konfigurace -->
+    <td th:text="${data.cmdLine.config}"></td>
+
+    <!-- Vykreslení PID -->
+    <td th:text="${data.pid}"></td>
+
+    <!-- Vykreslení Verze -->
+    <td th:text="${data.buildinfo.version}"></td>
+
+    <!-- Vykreslení Prostředí -->
+    <td th:text="${data.buildinfo.buildEnvironment.distmod}"></td>
+
+    <!-- Vykreslení Portu -->
+    <td th:text="${data.cmdLine.net.port}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<hr>
+<a href="/">Zpět na hlavní stránku</a>
+</body>
+</html>

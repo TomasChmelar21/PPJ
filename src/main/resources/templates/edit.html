@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editace dat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 1000px;
+      margin-top: 50px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    h2 {
+      color: #3498db;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    button[type="submit"] {
+      background-color: #e74c3c;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #c0392b;
+    }
+    form {
+      display: inline;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Editace dat</h1>
+
+  <h2>Měření počasí</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Teplota</th>
+      <th>Vlhkost</th>
+      <th>Tlak</th>
+      <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="measurement : ${measurements}">
+      <tr>
+        <td th:text="${measurement.id}"></td>
+        <td th:text="${measurement.temp}"></td>
+        <td th:text="${measurement.humidity}"></td>
+        <td th:text="${measurement.pressure}"></td>
+        <td>
+          <a th:href="@{/edit/{id}(id=${measurement.id})}">Editovat</a>
+          <form th:action="@{/weatherData/weather/delete/{id}(id=${measurement.id})}" method="post">
+            <button type="submit">Smazat</button>
+          </form>
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+
+  <h2>Státy</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Kód</th>
+      <th>Název</th>
+      <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="country : ${countries}">
+      <tr>
+        <td th:text="${country.id}"></td>
+        <td th:text="${country.code}"></td>
+        <td th:text="${country.name}"></td>
+        <td>
+          <a th:href="@{/country/edit/{id}(id=${country.id})}">Editovat</a>
+          <form th:action="@{/weatherData/country/delete/{id}(id=${country.id})}" method="post">
+            <button type="submit">Smazat</button>
+          </form>
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+
+  <h2>Města</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Název</th>
+      <th>Stát</th>
+      <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="city : ${cities}">
+      <tr>
+        <td th:text="${city.id}"></td>
+        <td th:text="${city.name}"></td>
+        <td th:text="${city.country.name}"></td>
+        <td>
+          <a th:href="@{/city/edit/{id}(id=${city.id})}">Editovat</a>
+          <form th:action="@{/weatherData/city/delete/{id}(id=${city.id})}" method="post">
+            <button type="submit">Smazat</button>
+          </form>
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
