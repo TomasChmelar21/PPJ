@@ -25,31 +25,27 @@ public class WeatherMeasurementController {
     public String editMeasurements(Model model) {
         model.addAttribute("measurements", service.getAllMeasurements());
         model.addAttribute("countries", countryService.getAllCountries());
-        model.addAttribute("cities", cityService.getAllCities());  // Přidáme města
+        model.addAttribute("cities", cityService.getAllCities());
         return "edit";
     }
-
-
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         WeatherMeasurement measurement = service.getMeasurementById(id);
         if (measurement == null) {
-            return "redirect:/edit"; // Pokud záznam neexistuje, přesměrovat zpět na seznam
+            return "redirect:/edit";
         }
         model.addAttribute("measurement", measurement);
         return "edit_form";
     }
-
 
     @PostMapping("/edit/{id}")
     public String updateMeasurement(@PathVariable("id") Long id, @ModelAttribute WeatherMeasurement measurement) {
         WeatherMeasurement existingMeasurement = service.getMeasurementById(id);
 
         if (existingMeasurement != null) {
-            measurement.setCity(existingMeasurement.getCity()); // Zachováme město
+            measurement.setCity(existingMeasurement.getCity());
 
-            // Zachování všech hodnot, pokud nejsou v odeslaném formuláři
             if (measurement.getTimestamp() == null) measurement.setTimestamp(existingMeasurement.getTimestamp());
             if (measurement.getTemp() == null) measurement.setTemp(existingMeasurement.getTemp());
             if (measurement.getFeelsLike() == null) measurement.setFeelsLike(existingMeasurement.getFeelsLike());
@@ -75,9 +71,56 @@ public class WeatherMeasurementController {
         return "redirect:/edit";
     }
 
+    @GetMapping("/edit/{id}/{field}={value}")
+    public String quickUpdateMeasurement(
+            @PathVariable("id") Long id,
+            @PathVariable("field") String field,
+            @PathVariable("value") String value
+    ) {
+        WeatherMeasurement measurement = service.getMeasurementById(id);
 
+        if (measurement == null) {
+            return "redirect:/edit";
+        }
 
+        switch (field) {
+            case "temp":
+                measurement.setTemp(Double.valueOf(value));
+                break;
+            case "humidity":
+                measurement.setHumidity(Integer.valueOf(value));
+                break;
+            case "pressure":
+                measurement.setPressure(Integer.valueOf(value));
+                break;
+            case "windSpeed":
+                measurement.setWindSpeed(Double.valueOf(value));
+                break;
+            case "windDeg":
+                measurement.setWindDeg(Integer.valueOf(value));
+                break;
+            case "clouds":
+                measurement.setClouds(Integer.valueOf(value));
+                break;
+            case "visibility":
+                measurement.setVisibility(Integer.valueOf(value));
+                break;
+            case "feelsLike":
+                measurement.setFeelsLike(Double.valueOf(value));
+                break;
+            case "tempMin":
+                measurement.setTempMin(Double.valueOf(value));
+                break;
+            case "tempMax":
+                measurement.setTempMax(Double.valueOf(value));
+                break;
+            default:
+                return "redirect:/edit";
+        }
+
+        service.saveMeasurement(measurement);
+
+        return "redirect:/edit";
+    }
 
 }
-
-

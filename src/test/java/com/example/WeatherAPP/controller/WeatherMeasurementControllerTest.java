@@ -11,10 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -41,7 +38,6 @@ class WeatherMeasurementControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(weatherMeasurementController).build();
     }
-
 
     @Test
     void testShowEditForm_ValidId() throws Exception {
@@ -90,5 +86,47 @@ class WeatherMeasurementControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/edit"));
         verify(weatherMeasurementService, times(0)).saveMeasurement(any(WeatherMeasurement.class));
+    }
+
+    // --------- Přidané testy pro rychlou editaci field=value ------------
+
+    @Test
+    void testQuickUpdateMeasurement_Humidity() throws Exception {
+        WeatherMeasurement measurement = new WeatherMeasurement();
+        measurement.setId(5L);
+        measurement.setHumidity(50); // původní hodnota
+
+        when(weatherMeasurementService.getMeasurementById(5L)).thenReturn(measurement);
+
+        mockMvc.perform(get("/edit/5/humidity=91"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/edit"));
+
+        verify(weatherMeasurementService).saveMeasurement(argThat(m -> m.getHumidity() == 91));
+    }
+
+    @Test
+    void testQuickUpdateMeasurement_InvalidField() throws Exception {
+        WeatherMeasurement measurement = new WeatherMeasurement();
+        measurement.setId(5L);
+
+        when(weatherMeasurementService.getMeasurementById(5L)).thenReturn(measurement);
+
+        mockMvc.perform(get("/edit/5/invalidField=123"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/edit"));
+
+        verify(weatherMeasurementService, never()).saveMeasurement(any());
+    }
+
+    @Test
+    void testQuickUpdateMeasurement_MeasurementNotFound() throws Exception {
+        when(weatherMeasurementService.getMeasurementById(5L)).thenReturn(null);
+
+        mockMvc.perform(get("/edit/5/humidity=91"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/edit"));
+
+        verify(weatherMeasurementService, never()).saveMeasurement(any());
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,9 @@ public class SQLController {
 
     @GetMapping
     public List<WeatherMeasurement> getAllWeatherData() {
-        List<WeatherMeasurement> weatherMeasurements = weatherMeasurementRepository.findAll();
+        Iterable<WeatherMeasurement> weatherMeasurementsIterable = weatherMeasurementRepository.findAll();
+        List<WeatherMeasurement> weatherMeasurements = new ArrayList<>();
+        weatherMeasurementsIterable.forEach(weatherMeasurements::add);
 
         if (weatherMeasurements.isEmpty()) {
             logger.info("No weather data found in MySQL.");

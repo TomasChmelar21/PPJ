@@ -14,12 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
 public class WeatherService {
 
-    private final String API_KEY = "*";
+    private final String API_KEY = "09bb23d79b6a513a2251168a3a6c933d";
     private final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric";
     private final String COUNTRY_URL = "https://restcountries.com/v3.1/alpha/%s";
 
@@ -81,7 +82,12 @@ public class WeatherService {
 
             WeatherMeasurement weatherMeasurement = new WeatherMeasurement();
             weatherMeasurement.setCity(city);
-            weatherMeasurement.setTimestamp(new Date(rootNode.path("dt").asLong() * 1000));
+
+            // Convert timestamp to String
+            long timestamp = rootNode.path("dt").asLong() * 1000;
+            String formattedTimestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(timestamp));
+            weatherMeasurement.setTimestamp(formattedTimestamp);
+
             weatherMeasurement.setTemp(rootNode.path("main").path("temp").asDouble());
             weatherMeasurement.setFeelsLike(rootNode.path("main").path("feels_like").asDouble());
             weatherMeasurement.setTempMin(rootNode.path("main").path("temp_min").asDouble());
@@ -93,8 +99,16 @@ public class WeatherService {
             weatherMeasurement.setWindDeg(rootNode.path("wind").path("deg").asInt());
             weatherMeasurement.setWindGust(rootNode.path("wind").path("gust").asDouble());
             weatherMeasurement.setClouds(rootNode.path("clouds").path("all").asInt());
-            weatherMeasurement.setSunrise(new Date(rootNode.path("sys").path("sunrise").asLong() * 1000));
-            weatherMeasurement.setSunset(new Date(rootNode.path("sys").path("sunset").asLong() * 1000));
+
+            // Convert sunrise and sunset to String
+            long sunrise = rootNode.path("sys").path("sunrise").asLong() * 1000;
+            String formattedSunrise = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(sunrise));
+            weatherMeasurement.setSunrise(formattedSunrise);
+
+            long sunset = rootNode.path("sys").path("sunset").asLong() * 1000;
+            String formattedSunset = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(sunset));
+            weatherMeasurement.setSunset(formattedSunset);
+
             weatherMeasurement.setWeatherMain(rootNode.path("weather").get(0).path("main").asText());
             weatherMeasurement.setWeatherDescription(rootNode.path("weather").get(0).path("description").asText());
             weatherMeasurement.setWeatherIcon(rootNode.path("weather").get(0).path("icon").asText());
@@ -106,5 +120,4 @@ public class WeatherService {
             logger.error("Error processing weather data", e);
         }
     }
-
 }

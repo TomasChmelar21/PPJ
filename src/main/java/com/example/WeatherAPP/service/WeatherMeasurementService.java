@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import java.util.ArrayList;
+
 @Service
 public class WeatherMeasurementService {
 
@@ -14,15 +16,19 @@ public class WeatherMeasurementService {
     private WeatherMeasurementRepository repository;
 
     public List<WeatherMeasurement> getAllMeasurements() {
-        return repository.findAll();
+        Iterable<WeatherMeasurement> weatherMeasurementsIterable = repository.findAll();
+        List<WeatherMeasurement> weatherMeasurements = new ArrayList<>();
+        weatherMeasurementsIterable.forEach(weatherMeasurements::add);
+
+        return weatherMeasurements;
     }
 
     public WeatherMeasurement getMeasurementById(Long id) {
         return repository.findById(id).orElse(null);
     }
 
-    // Modify this method to return the saved WeatherMeasurement
     public WeatherMeasurement saveMeasurement(WeatherMeasurement measurement) {
-        return repository.save(measurement);  // Save and return the saved entity
+        return repository.save(measurement);
     }
 }
+

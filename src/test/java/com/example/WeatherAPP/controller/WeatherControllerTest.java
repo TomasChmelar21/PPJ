@@ -1,6 +1,5 @@
 package com.example.WeatherAPP.controller;
 
-import com.example.WeatherAPP.model.WeatherRecord;
 import com.example.WeatherAPP.repository.CityRepository;
 import com.example.WeatherAPP.repository.CountryRepository;
 import com.example.WeatherAPP.repository.WeatherMeasurementRepository;
@@ -12,9 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
-
-import java.util.Collections;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -25,8 +21,6 @@ class WeatherControllerTest {
 
     private MockMvc mockMvc;
 
-    @Mock
-    private MongoTemplate mongoTemplate;
 
     @Mock
     private WeatherMeasurementRepository weatherMeasurementRepository;

@@ -39,4 +39,46 @@ public class CityController {
         cityService.updateCity(id, city);
         return "redirect:/edit";
     }
+
+    @GetMapping("/edit/{id}/{fieldValue}")
+    public String quickUpdateCity(@PathVariable Long id, @PathVariable String fieldValue) {
+        City city = cityService.getCityById(id);
+        if (city == null) {
+            return "redirect:/edit";
+        }
+
+        if (fieldValue.contains("=")) {
+            String[] parts = fieldValue.split("=", 2);
+            String field = parts[0];
+            String value = parts[1];
+
+            boolean validUpdate = false;
+
+            switch (field) {
+                case "name":
+                    city.setName(value);
+                    validUpdate = true;
+                    break;
+                case "countryId":
+                    try {
+                        Long countryId = Long.parseLong(value);
+                        Country country = countryService.getCountryById(countryId);
+                        if (country != null) {
+                            city.setCountry(country);
+                            validUpdate = true;
+                        }
+                    } catch (NumberFormatException e) {
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if (validUpdate) {
+                cityService.updateCity(id, city);
+            }
+        }
+
+        return "redirect:/edit";
+    }
 }

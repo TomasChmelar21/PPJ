@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Entity
 @Table(name = "weather_measurement")
 public class WeatherMeasurement {
@@ -22,7 +20,7 @@ public class WeatherMeasurement {
 
     @Column(name = "timestamp", nullable = false)
     @Getter @Setter
-    private Date timestamp;
+    private String timestamp;  // Change from Date to String
 
     @Column(name = "temp", nullable = false)
     @Getter @Setter
@@ -70,11 +68,11 @@ public class WeatherMeasurement {
 
     @Column(name = "sunrise", nullable = false)
     @Getter @Setter
-    private Date sunrise;
+    private String sunrise;  // Change from Date to String
 
     @Column(name = "sunset", nullable = false)
     @Getter @Setter
-    private Date sunset;
+    private String sunset;  // Change from Date to String
 
     @Column(name = "weather_main", nullable = false)
     @Getter @Setter
