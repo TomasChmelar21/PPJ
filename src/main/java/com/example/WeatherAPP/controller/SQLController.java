@@ -33,19 +33,21 @@ public class SQLController {
 
     @GetMapping
     public List<WeatherMeasurement> getAllWeatherData() {
+        logger.debug("Zahájeno načítání všech záznamů o počasí z MySQL.");
         Iterable<WeatherMeasurement> weatherMeasurementsIterable = weatherMeasurementRepository.findAll();
         List<WeatherMeasurement> weatherMeasurements = new ArrayList<>();
         weatherMeasurementsIterable.forEach(weatherMeasurements::add);
 
         if (weatherMeasurements.isEmpty()) {
-            logger.info("No weather data found in MySQL.");
+            logger.info("Nebyly nalezeny žádné záznamy o počasí v MySQL.");
         } else {
-            logger.info("Fetched " + weatherMeasurements.size() + " weather records from MySQL.");
+            logger.info("Načteno {} záznamů o počasí z MySQL.", weatherMeasurements.size());
             for (WeatherMeasurement record : weatherMeasurements) {
-                logger.info("Weather Record: " + record);
-                logger.info("City: " + record.getCity().getName());
-                logger.info("Temperature: " + record.getTemp());
-                logger.info("Weather Main: " + record.getWeatherMain());
+                logger.debug("Záznam: ID={}, město={}, teplota={}, stav={}",
+                        record.getId(),
+                        record.getCity().getName(),
+                        record.getTemp(),
+                        record.getWeatherMain());
             }
         }
 

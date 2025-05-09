@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!-- Definice logovacího souboru -->
+    <property name="LOG_FILE" value="log.out"/>
+
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>log.out</file>
+        <file>${LOG_FILE}</file>
         <append>true</append>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{36}] - %msg%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%thread] [%logger{36}] - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <!-- Definice logování do konzole -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger{36}] - %msg%n</pattern>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%thread] [%logger{36}] - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <!-- Nastavení úrovně logování -->
-    <root level="info">
+    <logger name="com.example.WeatherAPP" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="INFO">
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </root>

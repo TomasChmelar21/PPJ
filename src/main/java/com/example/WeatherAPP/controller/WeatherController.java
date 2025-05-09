@@ -24,27 +24,30 @@ public class WeatherController {
     @Autowired
     private CityRepository cityRepository;
 
-
     // Smazání měření počasí
     @PostMapping("/weather/delete/{id}")
     public String deleteWeather(@PathVariable Long id) {
+        logger.info("Mazání záznamu o počasí s ID {}", id);
         weatherMeasurementRepository.deleteById(id);
+        logger.debug("Záznam o počasí s ID {} byl smazán", id);
         return "redirect:/edit";
     }
 
     // Smazání státu
     @PostMapping("/country/delete/{id}")
     public String deleteCountry(@PathVariable Long id) {
+        logger.info("Mazání země s ID {}", id);
         countryRepository.deleteById(id);
+        logger.debug("Země s ID {} byla smazána", id);
         return "redirect:/edit";
     }
 
     // Smazání města
     @PostMapping("/city/delete/{id}")
     public String deleteCity(@PathVariable Long id) {
+        logger.info("Mazání města s ID {}", id);
         cityRepository.deleteById(id);
+        logger.debug("Město s ID {} bylo smazáno", id);
         return "redirect:/edit";
     }
-
-
 }

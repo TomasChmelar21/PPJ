@@ -17,10 +17,14 @@ import org.springframework.web.client.RestTemplate;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
+
+
 @Service
 public class WeatherService {
 
-    private final String API_KEY = "09bb23d79b6a513a2251168a3a6c933d";
+    @Value("${openweathermap.api-key}")
+    private String apiKey;
     private final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric";
     private final String COUNTRY_URL = "https://restcountries.com/v3.1/alpha/%s";
 
@@ -43,7 +47,7 @@ public class WeatherService {
     }
 
     public void saveWeatherData(String lat, String lon) {
-        String requestUrl = String.format(WEATHER_URL, lat, lon, API_KEY);
+        String requestUrl = String.format(WEATHER_URL, lat, lon, apiKey);
         logger.info("Sending request to URL: " + requestUrl);
         String jsonResponse = restTemplate.getForObject(requestUrl, String.class);
 

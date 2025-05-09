@@ -111,8 +111,8 @@
     <h1>Weather Data</h1>
 
     <div class="top-links">
-        <a href="/edit">Edit Measurements</a>
-        <a href="/prumer">Average Temperature</a>
+        <a href="/edit">Upravit</a>
+        <a href="/prumer">Prumerne Teploty</a>
     </div>
 
     <form action="/weather" method="get">
@@ -122,11 +122,11 @@
         <label for="lon">Longitude:</label>
         <input type="text" id="lon" name="lon" required>
         <br>
-        <button type="submit">Get Weather</button>
+        <button type="submit">Uložit</button>
     </form>
 
     <div>
-        <h2>API Response</h2>
+        <h2>API odpověď</h2>
         <pre th:text="${response}"></pre>
     </div>
 </div>
